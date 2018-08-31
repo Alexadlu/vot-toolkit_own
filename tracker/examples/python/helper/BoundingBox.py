@@ -203,7 +203,8 @@ class BoundingBox:
                 new_x_temp = center_x + width * sample_exp_two_sides(lambda_shift_frac)
             else:
                 rand_num = sample_rand_uniform()
-                new_x_temp = center_x + rand_num * (2 * new_width) - new_width
+                # config_coord for online
+                new_x_temp = center_x + rand_num * (new_width) - (0.5 * new_width)
 
             new_center_x = min(image.shape[1] - new_width / 2, max(new_width / 2, new_x_temp))
             first_time_x = False

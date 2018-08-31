@@ -127,8 +127,8 @@ class bbox_estimator:
             self.frist_frame = False
 
         # occlusion is learned
-        # else:
-        #     self.online_training(tracknet, train_step, 1)
+        else:
+            self.online_training(tracknet, train_step, 1)
 
         target_pad, _, _, _ = cropPadImage(self.bbox_prev_tight, self.image_prev)
         cur_search_region, search_location, edge_spacing_x, edge_spacing_y = cropPadImage(self.bbox_curr_prior_tight,
@@ -246,17 +246,22 @@ logger = setup_logger(logfile=None)
 # ckpt = '/datahdd/workdir/jaehyuk/code/experiment/VIDtracker/checkpoints/checkpoint.ckpt-551566'
 # ckpt = "/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-111241"
 # ckpt_dir = "./checkpoints"
-ckpt = '/home/jaehyuk/code/experiment/VIDonline/checkpoints/checkpoint.ckpt-37081'
-selected_weight = True
+ckpt = '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints_online/checkpoint.ckpt-303337'
+selected_weight = False
 
 step_dir = "/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step"
 #  descend!
-stlist = ['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.100.txt',
-          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.50.txt',
+stlist = ['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.50.txt',
           '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.40.txt',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.30.txt',
           '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.25.txt',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.20.txt',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.15.txt',
           '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.10.txt',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.8.txt',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.7.txt',
           '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.5.txt',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.3.txt',
           '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/step/step.1.txt']
 
 step = 1
@@ -266,7 +271,7 @@ for st in stlist:
         break
 
 # debug
-step = 50
+# step = 50
 
 imagefile = handle.frame()
 if not imagefile:
@@ -280,7 +285,7 @@ tracknet.build()
 tvars = tf.trainable_variables()
 g_vars = [var for var in tvars if 'fc1_image' or 'fc2_image' or 'fc3_image' or 'fc4_image' in var.name]
 # g_vars = [var for var in tvars if 'fc1_image' in var.name]
-train_step = tf.train.AdamOptimizer(1e-4).minimize(tracknet.loss)
+train_step = tf.train.AdamOptimizer(1e-8).minimize(tracknet.loss)
 
 
 sess = tf.Session()

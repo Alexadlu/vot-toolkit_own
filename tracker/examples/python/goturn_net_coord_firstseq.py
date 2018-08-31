@@ -25,6 +25,7 @@ class TRACKNET:
         self.batch_size = batch_size
         self.target = tf.placeholder(tf.float32, [None, 227, 227, 3])
         self.image = tf.placeholder(tf.float32, [None, 227, 227, 3])
+        self.prev_target_pool5 = tf.placeholder(tf.float32, [None, 6, 6, 256])
         self.parameters = {}
         self.outdim_cord = POLICY['num'] * 4
         self.outdim_obj = POLICY['side'] * POLICY['side'] * POLICY['num'] * 1
@@ -80,6 +81,9 @@ class TRACKNET:
                                            padding='VALID', name='target_pool5')
         # now 6 x 6 x 256
 
+        # add curr + prev target pool5
+        self.add_target_pool5 = self.prev_target_pool5 + 0. * self.target_pool5
+
         ########### for image ###########
         # [filter_height, filter_width, in_channels, out_channels]
         self.image_conv1 = self._conv_relu_layer(bottom=self.image, filter_size=[11, 11, 3, 96],
@@ -129,7 +133,7 @@ class TRACKNET:
         # but caffe layer is: n * c * h * w
 
         ########### Concatnate two layers ###########
-        self.concat = tf.concat([self.target_pool5, self.image_pool5], axis=3)  # 0, 1, 2, 3 - > 2, 3, 1, 0
+        self.concat = tf.concat([self.add_target_pool5, self.image_pool5], axis=3)  # 0, 1, 2, 3 - > 2, 3, 1, 0
 
         # important, since caffe has different layer dimension order
         self.concat = tf.transpose(self.concat, perm=[0, 3, 1, 2])
@@ -140,7 +144,7 @@ class TRACKNET:
         ########### fully connencted layers ###########
 
         # for object only using image
-        self.fc1_image = self._fc_relu_layers(self.concat, dim=4096, name="fc1_image")
+        self.fc1_image = self._fc_relu_layers(self.image_pool5, dim=4096, name="fc1_image")
         if (self.train):
             self.fc1_image = tf.nn.dropout(self.fc1_image, self.drop)
 

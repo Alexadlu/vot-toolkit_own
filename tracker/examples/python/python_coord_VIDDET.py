@@ -1,14 +1,14 @@
 import vot
 import sys
+
 sys.path.append('/usr/local/lib')
 import os
 import glob
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import tensorflow as tf
 from helper.image_proc import cropPadImage
 from helper.BoundingBox import BoundingBox, calculate_box
-
-# jaehyuk, check network file
 import goturn_net_coord
 import numpy as np
 import cv2
@@ -44,7 +44,9 @@ class bbox_estimator:
         """TODO: Docstring for preprocess.
 
         :arg1: TODO
-        :returns: TODO """
+        :returns: TODO
+
+        """
         image_out = image
         if image_out.shape != (POLICY['HEIGHT'], POLICY['WIDTH'], POLICY['channels']):
             image_out = cv2.resize(image_out, (POLICY['WIDTH'], POLICY['HEIGHT']), interpolation=cv2.INTER_CUBIC)
@@ -52,23 +54,18 @@ class bbox_estimator:
         image_out = np.float32(image_out)
         return image_out
 
-    def track(self, image_curr, tracknet, velocity, b_frist, sess):
+    def track(self, image_curr, tracknet, velocity, sess):
         """TODO: Docstring for tracker.
         :returns: TODO
 
         """
-        target_pad, _, _,  _ = cropPadImage(self.bbox_prev_tight, self.image_prev)
-        cur_search_region, search_location, edge_spacing_x, edge_spacing_y = cropPadImage(self.bbox_curr_prior_tight, image_curr)
+        target_pad, _, _, _ = cropPadImage(self.bbox_prev_tight, self.image_prev)
+        cur_search_region, search_location, edge_spacing_x, edge_spacing_y = cropPadImage(self.bbox_curr_prior_tight,
+                                                                                          image_curr)
 
         # image, BGR(training type)
         cur_search_region_resize = self.preprocess(cur_search_region)
         target_pad_resize = self.preprocess(target_pad)
-        
-        # jaehyuk, check hanning windows
-        hann_1d = np.expand_dims(np.hanning(227), axis=0)
-        hann_2d = np.transpose(hann_1d) * hann_1d
-        hann_2d = np.expand_dims(hann_2d, axis=2)
-        target_pad_resize = target_pad_resize * hann_2d
 
         cur_search_region_expdim = np.expand_dims(cur_search_region_resize, axis=0)
         target_pad_expdim = np.expand_dims(target_pad_resize, axis=0)
@@ -77,30 +74,30 @@ class bbox_estimator:
                                          feed_dict={tracknet.image: cur_search_region_expdim,
                                                     tracknet.target: target_pad_expdim})
         bbox_estimate, object_bool, objectness = calculate_box(re_fc4_image, fc4_adj)
+
         print('objectness_s is: ', objectness)
 
         ########### original method ############
         # this box is NMS result, TODO, all bbox check
 
         if not len(bbox_estimate) == 0:
-            bbox_estimate = BoundingBox(bbox_estimate[0][0], bbox_estimate[0][1], bbox_estimate[0][2], bbox_estimate[0][3])
+            bbox_estimate = BoundingBox(bbox_estimate[0][0], bbox_estimate[0][1], bbox_estimate[0][2],
+                                        bbox_estimate[0][3])
 
             # Inplace correction of bounding box
             bbox_estimate.unscale(cur_search_region)
             bbox_estimate.uncenter(image_curr, search_location, edge_spacing_x, edge_spacing_y)
 
-            # jaehyuk, check first vs adj
             # self.image_prev = image_curr
             # self.bbox_prev_tight = bbox_estimate
             self.bbox_curr_prior_tight = bbox_estimate
         else:
             # self.image_prev = self.image_prev
             # self.bbox_prev_tight = self.bbox_prev_tight
-            self.bbox_curr_prior_tight =self.bbox_curr_prior_tight
+            self.bbox_curr_prior_tight = self.bbox_curr_prior_tight
             bbox_estimate = self.bbox_curr_prior_tight
 
         ########### original method ############
-
 
         ############ trick method ############
 
@@ -168,6 +165,7 @@ class bbox_estimator:
         return vot.Rectangle(left_x, left_y, width, height)
         # return bbox_estimate
 
+
 handle = vot.VOT("rectangle")
 selection = handle.region()
 BATCH_SIZE = 1
@@ -181,16 +179,55 @@ ckpt_dir = "/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkp
 ckpt = None
 DET_ckpt = '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints_online/checkpoint.ckpt-303337'
 
+#  descend!
+#  VIDdist_conv_first_lr1e5-6
+cklist = ['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-323929',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-314113',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-304297',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-294481',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-284665',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-274849',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-265033',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-255217',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-245401',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-235585',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-225769',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-215953',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-206137',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-196321',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-186505',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-176689',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-166873',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-157057',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-151477',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-147241',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-137425',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-127609',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-117793',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-107977',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-98161',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-88345',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-78529',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-68713',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-58897',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-49081',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-39265',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-29449',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-19633',
+          '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-9817']
+
+for checkpoint in cklist:
+    if os.path.exists(checkpoint + '.meta'):
+        ckpt = checkpoint
+        break
 
 imagefile = handle.frame()
 if not imagefile:
     sys.exit(0)
-    
+
 bbox_estim = bbox_estimator(False, logger)
-# jaehyuk, check network file
 tracknet = goturn_net_coord.TRACKNET(BATCH_SIZE, train=False)
 tracknet.build()
-
 
 sess = tf.Session()
 init = tf.global_variables_initializer()
@@ -206,36 +243,34 @@ tf.train.start_queue_runners(sess=sess, coord=coord)
 if not os.path.exists(ckpt_dir):
     os.makedirs(ckpt_dir)
 
-# jaehyuk, check checkpoint, descend
-all_ckpt_meta = glob.glob(os.path.join(ckpt_dir, '*.meta'))
-num = []
-for ckpt_meta in all_ckpt_meta:
-    num.append(int(ckpt_meta.split('-')[2].split('.')[0]))
-max_num = max(num)
-ckpt = os.path.join(ckpt_dir, 'checkpoint.ckpt-' + str(max_num))
+restore = {}
+from tensorflow.contrib.framework.python.framework.checkpoint_utils import list_variables
 
-if ckpt:
-    saver = tf.train.Saver()
-    saver.restore(sess, ckpt)
-    logger.info(str(ckpt) + " is restored")
-else:
-    # ckpt = tf.train.get_checkpoint_state(ckpt_dir)
+slim = tf.contrib.slim
+for scope in list_variables(ckpt):
+    if 'conv' or 'fc1_image' or 'fc2_image' or 'fc3_image' or 'fc4_image' in scope[0]:
+        variables_to_restore = slim.get_variables(scope=scope[0])
+        if variables_to_restore:
+            restore[scope[0]] = variables_to_restore[0]  # variables_to_restore is list : [op]
 
-    saver = tf.train.Saver()
-    saver.restore(sess, ckpt)
-    logger.info("model is restored using " + str(ckpt))
+for scope in list_variables(DET_ckpt):
+    if 'fc1_adj' or 'fc2_adj' or 'fc3_adj' or 'fc4_adj' in scope[0]:
+        variables_to_restore = slim.get_variables(scope=scope[0])
+        if variables_to_restore:
+            restore[scope[0]] = variables_to_restore[0]  # variables_to_restore is list : [op]
 
+saver = tf.train.Saver(restore)
+saver.restore(sess, ckpt)
+logger.info("model is restored selected weight using " + str(ckpt))
 
 image = cv2.imread(imagefile)
 bbox_estim.init(image, selection)
 velocity = 0
-b_frist = True
 while True:
     imagefile = handle.frame()
     if not imagefile:
         break
     image = cv2.imread(imagefile)
-    bbox = bbox_estim.track(image, tracknet, velocity, b_frist, sess)
+    bbox = bbox_estim.track(image, tracknet, velocity, sess)
     handle.report(bbox)
-    b_frist = False
 

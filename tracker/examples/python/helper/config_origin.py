@@ -1,4 +1,4 @@
-# config_coord for online
+# config_coord
 
 POLICY = {
     # data path
@@ -7,12 +7,10 @@ POLICY = {
 
     # data augmentation
     'kGeneratedExamplesPerImage': 4,
-
-    # config_coord for online
     'lamda_shift': 5.,
     'lamda_scale': 15.,
-    'min_scale': -0.2,
-    'max_scale': 0.2,
+    'min_scale': -0.4,
+    'max_scale': 0.4,
 
     # network initialization
     'WIDTH': 227,

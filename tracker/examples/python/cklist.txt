@@ -52,8 +52,21 @@ cklist=['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoin
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-9271',
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-4636']
 
-
-cklist=['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-303337',
+# DETset_first_lr1e5-6_*
+cklist=['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-505561',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-488709',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-471857',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-455005',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-438153',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-421301',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-404449',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-387597',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-370745',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-353893',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-349795',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-337041',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-320189',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-303337',
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-286485',
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-269633',
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-252781',
@@ -71,3 +84,72 @@ cklist=['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoin
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-50557',
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-33705',
         '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-16853']
+
+
+# VIDdist__first_lr1e5_*
+cklist=['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-323929',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-314113',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-304297',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-294481',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-284665',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-274849',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-265033',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-255217',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-245401',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-235585',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-225769',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-215953',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-206137',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-196321',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-186505',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-176689',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-166873',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-157057',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-151477',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-147241',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-137425',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-127609',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-117793',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-107977',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-98161',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-88345',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-78529',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-68713',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-58897',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-49081',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-39265',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-29449',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-19633', '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-9817'] 
+# DETset_conv_first_lr1e5-6_*
+cklist=['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-185373',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-168521',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-151669',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-134817',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-117965',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-101113',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-84261',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-67409',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-50557',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-33705',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-16853']
+
+
+
+
+
+
+
+
+'DETset_conv_first_lr1e5-6_185373', 'DETset_conv_first_lr1e5-6_168521', 'DETset_conv_first_lr1e5-6_151669', 'DETset_conv_first_lr1e5-6_134817', 'DETset_conv_first_lr1e5-6_117965', 'DETset_conv_first_lr1e5-6_101113', 'DETset_conv_first_lr1e5-6_84261', 'DETset_conv_first_lr1e5-6_67409', 'DETset_conv_first_lr1e5-6_50557', 'DETset_conv_first_lr1e5-6_33705', 'DETset_conv_first_lr1e5-6_16853'
+
+'VIDdist_conv_first_lr1e5-6_88345', 'VIDdist_conv_first_lr1e5-6_78529', 'VIDdist_conv_first_lr1e5-6_68713', 'VIDdist_conv_first_lr1e5-6_58897', 'VIDdist_conv_first_lr1e5-6_49081', 'VIDdist_conv_first_lr1e5-6_39265', 'VIDdist_conv_first_lr1e5-6_29449', 'VIDdist_conv_first_lr1e5-6_19633', 'VIDdist_conv_first_lr1e5-6_9817'
+
+
+
+
+
+'VIDdist__first_lr1e5_323929', 'VIDdist__first_lr1e5_314113', 'VIDdist__first_lr1e5_304297', 'VIDdist__first_lr1e5_294481', 'VIDdist__first_lr1e5_284665', 'VIDdist__first_lr1e5_274849', 'VIDdist__first_lr1e5_265033', 'VIDdist__first_lr1e5_255217', 'VIDdist__first_lr1e5_245401', 'VIDdist__first_lr1e5_235585', 'VIDdist__first_lr1e5_225769', 'VIDdist__first_lr1e5_215953', 'VIDdist__first_lr1e5_206137', 'VIDdist__first_lr1e5_196321', 'VIDdist__first_lr1e5_186505', 'VIDdist__first_lr1e5_176689', 'VIDdist__first_lr1e5_166873', 'VIDdist__first_lr1e5_157057', 'VIDdist__first_lr1e5_151477', 'VIDdist__first_lr1e5_147241', 'VIDdist__first_lr1e5_137425', 'VIDdist__first_lr1e5_127609', 'VIDdist__first_lr1e5_117793', 'VIDdist__first_lr1e5_107977',
+'VIDDET__first_lr1e5_196321', 'VIDDET__first_lr1e5_186505', 'VIDDET__first_lr1e5_176689', 'VIDDET__first_lr1e5_166873', 'VIDDET__first_lr1e5_157057', 'VIDDET__first_lr1e5_151477', 'VIDDET__first_lr1e5_147241', 'VIDDET__first_lr1e5_137425', 'VIDDET__first_lr1e5_127609', 'VIDDET__first_lr1e5_117793', 'VIDDET__first_lr1e5_107977', 'VIDDET__first_lr1e5_98161','VIDDET__first_lr1e5_88345','VIDDET__first_lr1e5_78529','VIDDET__first_lr1e5_68713','VIDDET__first_lr1e5_58897','VIDDET__first_lr1e5_49081','VIDDET__first_lr1e5_39265'
+
+trackers = tracker_list('GOTURN',  '37081','DETset_hann_firstseq_0995_lr1e5-6_505561', 'DETset_hann_firstseq_0995_lr1e5-6_488709', 'DETset_hann_firstseq_0995_lr1e5-6_471857', 'DETset_hann_firstseq_0995_lr1e5-6_455005', 'DETset_hann_firstseq_0995_lr1e5-6_438153', 'DETset_hann_firstseq_0995_lr1e5-6_421301', 'DETset_hann_firstseq_0995_lr1e5-6_404449','DETset_hann_firstseq_0995_lr1e5-6_387597','DETset_hann_firstseq_0995_lr1e5-6_370745','DETset_hann_firstseq_0995_lr1e5-6_353893','DETset_hann_firstseq_0995_lr1e5-6_349795','DETset_hann_firstseq_0995_lr1e5-6_337041','DETset_hann_firstseq_0995_lr1e5-6_320189','DETset_hann_firstseq_0995_lr1e5-6_303337', 'DETset_hann_firstseq_0995_lr1e5-6_286485','DETset_hann_firstseq_0995_lr1e5-6_269633','DETset_hann_firstseq_0995_lr1e5-6_252781','DETset_hann_firstseq_0995_lr1e5-6_235929','DETset_hann_firstseq_0995_lr1e5-6_219077','DETset_hann_firstseq_0995_lr1e5-6_202225','DETset_hann_firstseq_0995_lr1e5-6_168521', 'DETset_hann_firstseq_0995_lr1e5-6_151669', 'DETset_hann_firstseq_0995_lr1e5-6_134817', 'DETset_hann_firstseq_0995_lr1e5-6_117965', 'DETset_hann_firstseq_0995_lr1e5-6_101113', 'DETset_hann_firstseq_0995_lr1e5-6_84261', 'DETset_hann_firstseq_0995_lr1e5-6_67409', 'DETset_hann_firstseq_0995_lr1e5-6_50557', 'DETset_hann_firstseq_0995_lr1e5-6_33705', 'DETset_hann_firstseq_0995_lr1e5-6_16853');
+trackers = tracker_list('GOTURN','DETset_first_lr1e5-6_303337', 'DETset_firstseq_lr1e5-6_471857', 'DETset_firstseq_lr1e5-6_303337');

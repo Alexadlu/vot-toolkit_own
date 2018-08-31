@@ -7,9 +7,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import tensorflow as tf
 from helper.image_proc import cropPadImage
 from helper.BoundingBox import BoundingBox, calculate_box
-
-# jaehyuk, check network file
-import goturn_net_coord
+import goturn_net_coord_firstseq
 import numpy as np
 import cv2
 from helper.config import POLICY
@@ -64,19 +62,29 @@ class bbox_estimator:
         cur_search_region_resize = self.preprocess(cur_search_region)
         target_pad_resize = self.preprocess(target_pad)
         
-        # jaehyuk, check hanning windows
+        # hanning windows
         hann_1d = np.expand_dims(np.hanning(227), axis=0)
         hann_2d = np.transpose(hann_1d) * hann_1d
         hann_2d = np.expand_dims(hann_2d, axis=2)
+
+        # target pad with hanning windows
         target_pad_resize = target_pad_resize * hann_2d
 
         cur_search_region_expdim = np.expand_dims(cur_search_region_resize, axis=0)
         target_pad_expdim = np.expand_dims(target_pad_resize, axis=0)
 
-        re_fc4_image, fc4_adj = sess.run([tracknet.re_fc4_image, tracknet.fc4_adj],
-                                         feed_dict={tracknet.image: cur_search_region_expdim,
-                                                    tracknet.target: target_pad_expdim})
+        if b_frist:
+            self.firstseq_target_pool5 = sess.run(tracknet.target_pool5, feed_dict={tracknet.image: cur_search_region_expdim,
+                                                                                  tracknet.target: target_pad_expdim})
+
+        re_fc4_image, fc4_adj, self.firstseq_target_pool5 = sess.run([tracknet.re_fc4_image,
+                                                                      tracknet.fc4_adj,
+                                                                      tracknet.add_target_pool5],
+                                                                     feed_dict={tracknet.image: cur_search_region_expdim,
+                                                                                tracknet.target: target_pad_expdim,
+                                                                                tracknet.prev_target_pool5: self.firstseq_target_pool5})
         bbox_estimate, object_bool, objectness = calculate_box(re_fc4_image, fc4_adj)
+
         print('objectness_s is: ', objectness)
 
         ########### original method ############
@@ -89,9 +97,8 @@ class bbox_estimator:
             bbox_estimate.unscale(cur_search_region)
             bbox_estimate.uncenter(image_curr, search_location, edge_spacing_x, edge_spacing_y)
 
-            # jaehyuk, check first vs adj
-            # self.image_prev = image_curr
-            # self.bbox_prev_tight = bbox_estimate
+            self.image_prev = image_curr
+            self.bbox_prev_tight = bbox_estimate
             self.bbox_curr_prior_tight = bbox_estimate
         else:
             # self.image_prev = self.image_prev
@@ -181,14 +188,87 @@ ckpt_dir = "/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkp
 ckpt = None
 DET_ckpt = '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints_online/checkpoint.ckpt-303337'
 
+#  descend!
+#  DETVID_dist_lr1e567
+
+
+cklist = ['/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-784257',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-772003',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-759749',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-747495',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-735241',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-722987',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-710733',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-698479',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-686225',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-673971',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-661717',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-649463',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-637209',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-624955',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-612701',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-600447',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-588193',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-575939',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-563685',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-551431',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-539177',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-526923',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-514669',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-502415',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-490161',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-477907',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-465653',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-453399',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-441145',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-428891',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-416637',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-404383',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-392129',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-379875',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-367621',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-355367',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-343113',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-330859',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-318605',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-306351',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-294097',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-281843',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-269589',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-257335',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-245081',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-232827',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-220573',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-208319',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-196065',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-183811',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-171557',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-159303',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-147049',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-134795',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-122541',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-110287',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-98033',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-85779',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-73525',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-61271',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-49017',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-36763',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-24509',
+        '/home/jaehyuk/code/github/vot-toolkit/tracker/examples/python/checkpoints/checkpoint.ckpt-12255']
+
+
+for checkpoint in cklist:
+    if os.path.exists(checkpoint + '.meta'):
+        ckpt = checkpoint
+        break
 
 imagefile = handle.frame()
 if not imagefile:
     sys.exit(0)
     
 bbox_estim = bbox_estimator(False, logger)
-# jaehyuk, check network file
-tracknet = goturn_net_coord.TRACKNET(BATCH_SIZE, train=False)
+tracknet = goturn_net_coord_firstseq.TRACKNET(BATCH_SIZE, train=False)
 tracknet.build()
 
 
@@ -206,13 +286,13 @@ tf.train.start_queue_runners(sess=sess, coord=coord)
 if not os.path.exists(ckpt_dir):
     os.makedirs(ckpt_dir)
 
-# jaehyuk, check checkpoint, descend
-all_ckpt_meta = glob.glob(os.path.join(ckpt_dir, '*.meta'))
-num = []
-for ckpt_meta in all_ckpt_meta:
-    num.append(int(ckpt_meta.split('-')[2].split('.')[0]))
-max_num = max(num)
-ckpt = os.path.join(ckpt_dir, 'checkpoint.ckpt-' + str(max_num))
+# it is too long
+# all_ckpt_meta = glob.glob(os.path.join(ckpt_dir, '*.meta'))
+# num = []
+# for ckpt_meta in all_ckpt_meta:
+    # num.append(int(ckpt_meta.split('-')[2].split('.')[0]))
+# max_num = max(num)
+# ckpt = os.path.join(ckpt_dir, 'checkpoint.ckpt-' + str(max_num))
 
 if ckpt:
     saver = tf.train.Saver()

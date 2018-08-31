@@ -33,7 +33,8 @@ region_noise.parameters.skip_initialize = 5;
 region_noise.parameters.failure_overlap = 0;
 region_noise.analysis = {'ar_rank', 'speed'};
 
-experiments = {baseline, region_noise};
+% experiments = {baseline, region_noise};
+experiments = {baseline};
 
 end
 
